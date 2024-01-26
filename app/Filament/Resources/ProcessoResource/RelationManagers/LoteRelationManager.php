@@ -3,6 +3,7 @@
 namespace App\Filament\Resources\ProcessoResource\RelationManagers;
 
 use App\Filament\Resources\ProcessoResource;
+use Filament\Forms\Components\Actions\Action;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Pages\ManageRelatedRecords;
@@ -10,10 +11,14 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Contracts\Support\Htmlable;
 
+
 class LoteRelationManager extends ManageRelatedRecords
 {
     protected static string $resource = ProcessoResource::class; // 1 processo tem muitos lotes
     protected static string $relationship = 'processoLote'; // 1 lote tem muitos itens
+
+    protected static ?string $title = 'Lote';
+    
     public function form(Form $form): Form {
         return $form
             ->schema([
@@ -34,7 +39,7 @@ class LoteRelationManager extends ManageRelatedRecords
                     ->description('Itens do lote.')
                     ->schema([
                         Forms\Components\Repeater::make('itemsUnits')
-                            ->relationship('itemsUnits')->label("")
+                         //   ->relationship('itemsUnits')->label("")
                             ->dehydrated(false)
                             ->schema([
                                 Forms\Components\TextInput::make('numero')
@@ -50,9 +55,9 @@ class LoteRelationManager extends ManageRelatedRecords
                                 Forms\Components\TextInput::make('valor_referencia')
                                     ->label(__('Valor Referência'))
                                     ->required(),
-                            ])->minItems(1)/*
+                            ])->minItems(1)
                             ->deleteAction(
-                                fn(ActionForm $action) => $action->requiresConfirmation(),
+                                fn(Action $action) => $action->requiresConfirmation(),
                             )
 
                             ->mutateRelationshipDataBeforeSaveUsing(function (array $data): array {
@@ -66,7 +71,7 @@ class LoteRelationManager extends ManageRelatedRecords
                             ->addActionLabel('Adicionar')
                             ->grid(2)
                             ->columnSpanFull(),
-                        */
+
                     ]),
 
 
